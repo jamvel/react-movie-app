@@ -1,0 +1,2 @@
+export const SET_CONFIG = 'SET_CONFIG';
+export const ERROR_SET_CONFIG = 'ERROR_SET_CONFIG';
