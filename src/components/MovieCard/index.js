@@ -29,8 +29,8 @@ const MovieCardParent = styled.div`
 `
 
 const StyledImg = styled.img`
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 `;
 
 const MovieCard = ({ movie, secureBaseUrl, posterSize }) => (
@@ -48,7 +48,7 @@ const MovieCard = ({ movie, secureBaseUrl, posterSize }) => (
 
 const mapStateToProps = (state, props) => {
 	const data = get(state, 'movies.data');
-	const imagesConfig = get(state, 'config.images')
+	const imagesConfig = get(state, 'config.images');
 	
     return {
 		movie: data[props.id] || null,
@@ -56,5 +56,5 @@ const mapStateToProps = (state, props) => {
 		posterSize: get(imagesConfig, 'poster_sizes[3]')
     }
 }
-export default connect(mapStateToProps, null)(MovieCard)
 
+export default connect(mapStateToProps, null)(MovieCard)
