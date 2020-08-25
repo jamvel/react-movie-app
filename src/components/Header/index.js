@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { toggleSearch } from 'stores/app/actions'
+
 import Search from 'components/Search';
 
-const HeaderWrapper = styled.div`
+const HeaderParent = styled.div`
     width: 100%;
     height: auto;
     color: white;
@@ -12,16 +15,46 @@ const HeaderWrapper = styled.div`
 `
 
 const BrandWrapper = styled.div`
-    margin: 0 10px;
+    margin: 0 20px;
 `
 
-const Header = () => (
-    <HeaderWrapper>
-        <BrandWrapper>
-            <FontAwesomeIcon icon="film" /> React <span>Movies</span>
-        </BrandWrapper>
-        <Search />
-    </HeaderWrapper>
+const HeaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > svg {
+        margin-right: 20px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+`
+
+const Header = ({ showSearch, toggleSearchRx }) => (
+    <HeaderParent>
+        <HeaderWrapper>
+            <BrandWrapper>
+                <FontAwesomeIcon icon="film" /> React <span>Movies</span>
+            </BrandWrapper>
+            <FontAwesomeIcon 
+                icon={showSearch ? 'times' : 'search'}
+                onClick={() => toggleSearchRx()}
+            />
+        </HeaderWrapper>
+        {showSearch && (
+            <Search />
+        )}
+    </HeaderParent>
 )
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        showSearch: state.app.showSearch
+    }
+}
+  
+const mapDispatchToProps = dispatch => ({
+    toggleSearchRx: (toggle = null) => dispatch(toggleSearch(toggle))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
