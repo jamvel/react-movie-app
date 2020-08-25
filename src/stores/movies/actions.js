@@ -75,7 +75,7 @@ export const getList = ({ id, apiCallback } = {}) => async (dispatch, getState) 
 };
 
 export const getPopularList = () => getList({ id: 'popular', apiCallback: getPopular })
-export const getTopRatedList = () => getList({ id: 'top-rated', apiCallback: getTopRated })
+export const getTopRatedList = () => getList({ id: 'topRated', apiCallback: getTopRated })
 
 // export const getMovieDetails = id => async dispatch => {
 //     try {
