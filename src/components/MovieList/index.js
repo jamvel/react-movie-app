@@ -27,8 +27,22 @@ const MovieCardContainer = styled.div`
   }
 `;
 
+/**
+ * @component
+ * @param {Object} listObject - List Object containing different properties
+ * @param {boolean} listObject.isLoading - ListObject property that shows whether data for a given list is being fetched
+ * @param {boolean} listObject.isError - ListObject property that shows whether or not there was an error during data fetch
+ * @param {number[]} listObject.list - ListObject property that contains a list of movie ids
+ * @param {Object} config - Config Object containing different properties
+ * @param {boolean} config.isLoading - Config property that shows whether the config data is being fetched
+ * @param {Function} fetchDataCallback - Redux Action that performs the data fetch for a given list
+ */
 const MovieList = ({ listObject, fetchDataCallback, config }) => {
+    /**
+     * Initialise data on mount by calling fetchDataCallback action
+     */
     useEffect(() => {
+        // only dispatch actio if list object is not in store
         if(!listObject){
             fetchDataCallback()
         }
