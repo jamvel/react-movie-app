@@ -44,7 +44,8 @@ export default (state = initialState, action) => {
                     ...state.lists,
                     [action.payload.id]: {
                         ...listObject,
-                        isLoading: true
+                        isLoading: true,
+                        isError: false,
                     }
                 }
             }
@@ -60,6 +61,7 @@ export default (state = initialState, action) => {
                     [action.payload.id]: {
                         ...listObject,
                         isLoading: false,
+                        isError: true,
                         index: action.payload.index,
                     }
                 }
@@ -75,28 +77,13 @@ export default (state = initialState, action) => {
                     ...state.lists,
                     [action.payload.id]:{
                         isLoading: false,
+                        isError: false,
                         index: action.payload.index,
                         list: list ? list.concat(action.payload.list) : action.payload.list
                     }
                 }
             }
         }
-        // case UPDATE_LIST: {
-        //     const id = action.payload.id;
-        //     const listObject = get(state.lists, id);
-        //     const list = get(listObject, 'list');
-
-        //     return {
-        //         ...state,
-        //         lists: {
-        //             ...state.lists,
-        //             [id]:{
-        //                 index: action.payload.index,
-        //                 list: list.concat(action.payload.list)
-        //             }
-        //         }
-        //     }
-        // }
         default:
             return state;
     }
