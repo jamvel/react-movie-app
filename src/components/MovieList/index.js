@@ -28,6 +28,8 @@ const MovieCardContainer = styled.div`
 `;
 
 /**
+ * Movie List Component that fetches data and then displays a MovieCard list
+ * 
  * @component
  * @param {Object} listObject - List Object containing different properties
  * @param {boolean} listObject.isLoading - ListObject property that shows whether data for a given list is being fetched
