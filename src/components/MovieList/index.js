@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import get from 'lodash.get'
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-
-import Card from 'components/MovieCard'
-import { getPopularList } from 'stores/movies/actions'
+import Card from 'components/MovieCard';
 
 const MovieCardContainer = styled.div`
   display: flex;
@@ -31,45 +27,40 @@ const MovieCardContainer = styled.div`
   }
 `;
 
-const MovieList = ({ listObject, fetchDataCallback }) => {
+const MovieList = ({ listObject, fetchDataCallback, config }) => {
+    useEffect(() => {
+        if(!listObject){
+            fetchDataCallback()
+        }
+    }, [])
+
     const handleClick = () => {
         fetchDataCallback();
     }
     
-  return (
-    <>
-        {listObject && 'list' in listObject && (
-            <>
-                <MovieCardContainer>
-                    {listObject.list && listObject.list.map(id => (
-                        <Card id={id} key={id} />
-                    ))}
-                </MovieCardContainer>
-                <button onClick={() => handleClick()} disabled={listObject.isLoading}>
-                    Get More
-                </button>
-            </>
-        )}
+    return (
+        <>
+            {listObject && 'list' in listObject && config && !config.isLoading && (
+                <>
+                    <MovieCardContainer>
+                        {listObject.list && listObject.list.map(id => (
+                            <Card id={id} key={id} />
+                        ))}
+                    </MovieCardContainer>
+                    <button onClick={() => handleClick()} disabled={listObject.isLoading}>
+                        Get More
+                    </button>
+                </>
+            )}
 
-        {listObject && listObject.isLoading && (
-            <div>Loading</div>
-        )}
+            {listObject && config && (listObject.isLoading || config.isLoading) && (
+                <div>Loading</div>
+            )}
 
-        {listObject && listObject.isError && (
-            <div>Something went wrong :(</div>
-        )}
-    </>
+            {listObject && listObject.isError && (
+                <div>Something went wrong :(</div>
+            )}
+        </>
 )}
 
-const mapStateToProps = state => {
-    const popularList = get(state, 'movies.lists.popular');
-    return {
-        listObject: popularList || null
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    fetchDataCallback: () => dispatch(getPopularList()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MovieList)
+export default MovieList;
