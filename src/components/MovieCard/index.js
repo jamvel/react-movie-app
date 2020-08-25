@@ -33,13 +33,13 @@ const StyledImg = styled.img`
   height: 100%;
 `;
 
-const MovieCard = ({ movie }) => (
+const MovieCard = ({ movie, secureBaseUrl, posterSize }) => (
 	<>
 		{/* check that movie is defined in state before rendering */}
 		{movie && (
 			<MovieCardParent onClick={() => console.log(get(movie, 'id'))}>
 			<StyledImg
-				src={`https://image.tmdb.org/t/p/w500/${get(movie, 'poster_path')}`}
+				src={`${secureBaseUrl}${posterSize}/${get(movie, 'poster_path')}`}
 			/>
 			</MovieCardParent>
 		)}
@@ -48,9 +48,12 @@ const MovieCard = ({ movie }) => (
 
 const mapStateToProps = (state, props) => {
 	const data = get(state, 'movies.data');
+	const imagesConfig = get(state, 'config.images')
 	
     return {
-        movie: data[props.id] || null
+		movie: data[props.id] || null,
+		secureBaseUrl: get(imagesConfig, 'secure_base_url'),
+		posterSize: get(imagesConfig, 'poster_sizes[3]')
     }
 }
 export default connect(mapStateToProps, null)(MovieCard)
