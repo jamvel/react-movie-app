@@ -16,6 +16,7 @@ const HeaderParent = styled.div`
 
 const BrandWrapper = styled.div`
     margin: 0 20px;
+    user-select: none;
 `
 
 const HeaderWrapper = styled.div`
