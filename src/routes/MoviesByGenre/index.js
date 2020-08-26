@@ -16,6 +16,9 @@ export default connect((state, ownProps) => {
     let title = null;
     if(config && 'genres' in config){
         title = get(config['genres'].find(g => g.id.toString() === ownProps.id), 'name') || null
+        if(title){
+            title = `${title} Genre`
+        }
     }
 
     return {

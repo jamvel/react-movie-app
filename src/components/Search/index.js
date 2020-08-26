@@ -78,11 +78,7 @@ const Search = () => {
     }
 
     return (
-        <Parent 
-            onBlur={() => {
-                console.log('blur event')
-            }}
-        >
+        <Parent>
             <InputParent>
                 <FontAwesomeIcon icon="search" color='grey' size='xs' />
                 <Input

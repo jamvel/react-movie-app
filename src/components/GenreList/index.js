@@ -31,7 +31,7 @@ const Genre = styled.div`
     padding: .5em 0;
 
     :hover {
-        cursor: pointer;
+        background: maroon;
     }
 `
 
