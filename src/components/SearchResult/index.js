@@ -83,7 +83,7 @@ const Result = ({ movie, secureBaseUrl, posterSize, toggleSearchRx }) => {
 const mapStateToProps = state => {
     const imagesConfig = get(state, 'config.images');
     return {
-        showSearch: state.app.showSearch,
+        showSearch: state.ui.showSearch,
         secureBaseUrl: get(imagesConfig, 'secure_base_url'),
         posterSize: get(imagesConfig, 'logo_sizes[3]')
     }
