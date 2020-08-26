@@ -4,19 +4,20 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 
-import { toggleSearch } from 'stores/ui/actions'
+import { toggleSearch, toggleMenu } from 'stores/ui/actions'
 
 import Search from 'components/Search';
 
 const HeaderParent = styled.div`
     width: 100%;
-    height: auto;
+    height: 50px;
     color: white;
     font-size: 1.5em;
+    padding-top: .3em;
 `
 
 const BrandWrapper = styled.div`
-    margin: 0 20px;
+    margin-left: 1em;
     user-select: none;
     cursor: pointer;
 `
@@ -27,13 +28,23 @@ const HeaderWrapper = styled.div`
     justify-content: space-between;
 
     > svg {
-        margin-right: 20px;
         font-size: 20px;
         cursor: pointer;
     }
 `
 
-const Header = ({ showSearch, toggleSearchRx }) => {
+const IconWrapper = styled.div`
+    svg {
+        margin-left: 0.7em;
+        cursor: pointer;
+
+        :last-child {
+            margin-right: 1em;
+        }
+    }
+`
+
+const Header = ({ showSearch, toggleSearchRx, openMenuRx }) => {
     const history = useHistory();
     return (
         <HeaderParent>
@@ -41,10 +52,16 @@ const Header = ({ showSearch, toggleSearchRx }) => {
                 <BrandWrapper onClick={() => history.push('/')}>
                     <FontAwesomeIcon icon="film" /> React <span>Movies</span>
                 </BrandWrapper>
-                <FontAwesomeIcon 
-                    icon={showSearch ? 'times' : 'search'}
-                    onClick={() => toggleSearchRx()}
-                />
+                <IconWrapper>
+                    <FontAwesomeIcon 
+                        icon={showSearch ? 'times' : 'search'}
+                        onClick={() => toggleSearchRx()}
+                    />
+                    <FontAwesomeIcon 
+                        icon='bars'
+                        onClick={() => openMenuRx()}
+                    />
+                </IconWrapper>
             </HeaderWrapper>
             {showSearch && (
                 <Search />
@@ -60,7 +77,8 @@ const mapStateToProps = state => {
 }
   
 const mapDispatchToProps = dispatch => ({
-    toggleSearchRx: (toggle = null) => dispatch(toggleSearch(toggle))
+    toggleSearchRx: (toggle = null) => dispatch(toggleSearch(toggle)),
+    openMenuRx: () => dispatch(toggleMenu(true))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
