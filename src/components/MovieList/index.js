@@ -74,7 +74,7 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
                 <div>Loading</div>
             )}
 
-            {listObject && config && !listObject.isLoading && !config.isLoading && (
+            {listObject && config && !listObject.isLoading && !config.isLoading && listObject.list.length <= 0 && (
                 <div>List Not Found</div>
             )}
 
