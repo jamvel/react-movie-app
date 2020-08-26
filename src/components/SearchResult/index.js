@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from "react-router-dom";
+import get from 'lodash.get';
 
 import { toggleSearch } from 'stores/app/actions'
 
@@ -11,6 +12,13 @@ const ResultParent = styled.div`
     flex-direction: row;
     max-height: 68px;
     border-bottom: 1px solid lightgrey;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    :hover {
+        transform: scale(1.008);
+        z-index: 2;
+    }
 `
 
 const PosterImagePlaceHolder = styled.div`
@@ -46,7 +54,7 @@ const ResultDesc = styled.div`
     font-size: 12px;
 `
 
-const Result = ({ movie, toggleSearchRx }) => {
+const Result = ({ movie, secureBaseUrl, posterSize, toggleSearchRx }) => {
     const history = useHistory();
     return (
         <ResultParent 
@@ -57,7 +65,7 @@ const Result = ({ movie, toggleSearchRx }) => {
         >
             <PosterImagePlaceHolder>
                 {movie.poster_path ? (
-                    <img src={`https://image.tmdb.org/t/p/w45/${movie.poster_path}`} />
+                    <img src={`${secureBaseUrl}${posterSize}/${movie.poster_path}`} alt="Poster" />
                 ) : (
                     <FontAwesomeIcon icon="film" color='white' />
                 )}
@@ -73,8 +81,11 @@ const Result = ({ movie, toggleSearchRx }) => {
 }
 
 const mapStateToProps = state => {
+    const imagesConfig = get(state, 'config.images');
     return {
-        showSearch: state.app.showSearch
+        showSearch: state.app.showSearch,
+        secureBaseUrl: get(imagesConfig, 'secure_base_url'),
+        posterSize: get(imagesConfig, 'logo_sizes[3]')
     }
 }
   
