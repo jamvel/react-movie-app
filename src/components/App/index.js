@@ -7,16 +7,18 @@ import { initConfig } from 'stores/config/actions';
 import GlobalFont from 'assets/fonts/Poppins';
 
 import 'helpers/fontAwesomeLibrary';
+import theme from 'helpers/theme';
 
-import Header from 'components/Header'
-import Menu from 'components/Menu'
+import Header from 'components/Header';
+import Menu from 'components/Menu';
+import GenreList from 'components/GenreList'
 
 import routeMap from 'helpers/routeMap';
-import PopularMovies from 'routes/PopularMovies'
-import TopRatedMovies from 'routes/TopRatedMovies'
-import NowPlayingMovies from 'routes/NowPlayingMovies'
+import PopularMovies from 'routes/PopularMovies';
+import TopRatedMovies from 'routes/TopRatedMovies';
+import NowPlayingMovies from 'routes/NowPlayingMovies';
 import MoviesByGenre from 'routes/MoviesByGenre';
-// import Movie from 'routes/Movie'
+import Movie from 'routes/Movie';
 
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
@@ -26,18 +28,9 @@ const GlobalStyle = createGlobalStyle`
         background-color: #2c3949;
         font-family: 'Poppins';
         margin: 0;
+        overflow-x: hidden;
     }
 `
-const theme = {
-    primary: '#2c3949',
-    secondary: '#fff',
-    breakpoints: {
-        xs: '576px',
-        sm: '768px',
-        md: '992px',
-        lg: '1140px'
-    }
-}
 
 const App = ({ location, history, initConfigRx, config, showMenu }) => {
 
@@ -59,18 +52,18 @@ const App = ({ location, history, initConfigRx, config, showMenu }) => {
                     <Route
                             path="/genre/:id"
                             render={props => (
-                                <MoviesByGenre id={props.match.params.id} />
+                                <>
+                                    <GenreList />
+                                    <MoviesByGenre id={props.match.params.id} />
+                                </>
                             )}
                         />
-                    {config && ('genres' in config) && (
-                        <></>
-                    )}
-                    {/* <Route
+                    <Route
                         path="/movie/:id"
                         render={props => (
                             <Movie id={props.match.params.id} />
                         )}
-                    /> */}
+                    />
                     {/* <Route render={() => (<div>not found</div>)} /> */}
 
                 </Switch>

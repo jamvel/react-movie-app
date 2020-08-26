@@ -1,31 +1,59 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import theme from 'helpers/theme';
 import Card from 'components/MovieCard';
+import Loader from 'components/Loader';
 
 const MovieCardContainer = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  padding: 0.1em;
-  // height: 100%;
-  // overflow: scroll;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0.1em;
 
-  :focus {
-    outline: none;
-    border: none;
-  }
-  @media screen and (max-width: 1140px) {
-    padding: 1.5em;
-  }
-  @media screen and (max-width: 992px) {
-    padding: 1em 0.65em;
-  }
-  @media screen and (max-width: 768px) {
-    padding: 0.35em;
-  }
-  @media screen and (max-width: 576px) {
-    padding: 0.25em;
-  }
+    :focus {
+        outline: none;
+        border: none;
+    }
+    @media screen and (max-width: 1140px) {
+        padding: 1.5em;
+    }
+    @media screen and (max-width: 992px) {
+        padding: 1em 0.65em;
+    }
+    @media screen and (max-width: 768px) {
+        padding: 0.35em;
+    }
+    @media screen and (max-width: 576px) {
+        padding: 0.25em;
+    }
 `;
+
+const TitleContainer = styled.div`
+    color: ${({ theme }) => theme.secondary};
+    font-size: 1.6em;
+    padding-left: 0.6em;
+    width: 100%;
+    font-weight: bold;
+    border-bottom: 1px solid ${({ theme }) => theme.secondary};
+`
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`
+
+const Button = styled.button`
+    display: flex;
+    height: 60px;
+    align-items: center;
+    background: transparent;
+    border: 1px solid ${({ theme }) => theme.secondary};
+    padding: 1.3em;
+    margin: 1em 0 3em 0;
+    color: white;
+    border-radius: 1em;
+    font-weight: bold;
+    cursor: pointer;
+`
 
 /**
  * Movie List Component that fetches data and then displays a MovieCard list
@@ -56,7 +84,7 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
     
     return (
         <>
-            <div>{title}</div>
+            <TitleContainer>{title}</TitleContainer>
             {listObject && 'list' in listObject && config && !config.isLoading && listObject.list.length > 0 &&(
                 <>
                     <MovieCardContainer>
@@ -64,14 +92,16 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
                             <Card id={id} key={id} />
                         ))}
                     </MovieCardContainer>
-                    <button onClick={() => handleClick()} disabled={listObject.isLoading}>
-                        Get More
-                    </button>
+                    <ButtonWrapper>
+                        <Button onClick={() => handleClick()} disabled={listObject.isLoading}>
+                            {listObject.isLoading ? <Loader color={theme.secondary} /> : 'Fetch More'}
+                        </Button>
+                    </ButtonWrapper>
                 </>
             )}
 
             {listObject && config && (listObject.isLoading || config.isLoading) && (
-                <div>Loading</div>
+                <Loader color={theme.secondary} />
             )}
 
             {listObject && config && !listObject.isLoading && !config.isLoading && listObject.list.length <= 0 && (

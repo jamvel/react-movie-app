@@ -47,7 +47,7 @@ const Results = styled.div`
 
 const Search = () => {
     const [searchValue, setSearchValue] = useState("");
-    const [searchQuery, setSearchQuery] = useState({});
+    const [searchQuery, setSearchQuery] = useState({}); // eslint-disable-line no-unused-vars
     const [searchData, setSearchData] = useState({});
 
     const handleChange = e => {
