@@ -48,7 +48,7 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
         if(!listObject){
             fetchDataCallback()
         }
-    }, [])
+    }, [listObject, fetchDataCallback])
 
     const handleClick = () => {
         fetchDataCallback();

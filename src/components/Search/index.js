@@ -8,9 +8,11 @@ import { searchMovies } from 'api';
 
 const Parent = styled.div`
     width: 100%;
+    position: absolute;
     height: auto;
     box-sizing: border-box;
     background: white;
+    z-index: 3;
 `
 
 const InputParent = styled.div`
@@ -84,6 +86,7 @@ const Search = () => {
             <InputParent>
                 <FontAwesomeIcon icon="search" color='grey' size='xs' />
                 <Input
+                    autoFocus
                     value={searchValue}
                     onChange={handleChange}
                 />
