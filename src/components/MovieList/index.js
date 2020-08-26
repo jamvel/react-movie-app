@@ -39,12 +39,12 @@ const MovieCardContainer = styled.div`
  * @param {boolean} config.isLoading - Config property that shows whether the config data is being fetched
  * @param {Function} fetchDataCallback - Redux Action that performs the data fetch for a given list
  */
-const MovieList = ({ listObject, fetchDataCallback, config }) => {
+const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
     /**
      * Initialise data on mount by calling fetchDataCallback action
      */
     useEffect(() => {
-        // only dispatch actio if list object is not in store
+        // only dispatch action if list object is not in store
         if(!listObject){
             fetchDataCallback()
         }
@@ -56,7 +56,8 @@ const MovieList = ({ listObject, fetchDataCallback, config }) => {
     
     return (
         <>
-            {listObject && 'list' in listObject && config && !config.isLoading && (
+            <div>{title}</div>
+            {listObject && 'list' in listObject && config && !config.isLoading && listObject.list.length > 0 &&(
                 <>
                     <MovieCardContainer>
                         {listObject.list && listObject.list.map(id => (
@@ -71,6 +72,10 @@ const MovieList = ({ listObject, fetchDataCallback, config }) => {
 
             {listObject && config && (listObject.isLoading || config.isLoading) && (
                 <div>Loading</div>
+            )}
+
+            {listObject && config && !listObject.isLoading && !config.isLoading && (
+                <div>List Not Found</div>
             )}
 
             {listObject && listObject.isError && (
