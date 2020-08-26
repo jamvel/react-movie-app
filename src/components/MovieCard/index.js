@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash.get';
 import styled from 'styled-components';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 const MovieCardParent = styled.div`
     position: relative;
