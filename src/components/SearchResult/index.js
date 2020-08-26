@@ -1,6 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useHistory } from "react-router-dom";
+
+import { toggleSearch } from 'stores/app/actions'
 
 const ResultParent = styled.div`
     display: flex;
@@ -42,22 +46,40 @@ const ResultDesc = styled.div`
     font-size: 12px;
 `
 
-const Result = ({ movie }) => (
-    <ResultParent onClick={() => console.log(movie)}>
-        <PosterImagePlaceHolder>
-            {movie.poster_path ? (
-                <img src={`https://image.tmdb.org/t/p/w45/${movie.poster_path}`} />
-            ) : (
-                <FontAwesomeIcon icon="film" color='white' />
-            )}
-        </PosterImagePlaceHolder>
-        <ResultInfoParent>
-            <ResultTitle>{movie.title} ({new Date(movie.release_date).getFullYear()})</ResultTitle>
-            <ResultDesc>
-                {movie.overview}
-            </ResultDesc>
-        </ResultInfoParent>
-    </ResultParent>
-)
+const Result = ({ movie, toggleSearchRx }) => {
+    const history = useHistory();
+    return (
+        <ResultParent 
+            onClick={() => {
+                toggleSearchRx(false)
+                history.push(`/movie/${movie.id}`)
+            }}
+        >
+            <PosterImagePlaceHolder>
+                {movie.poster_path ? (
+                    <img src={`https://image.tmdb.org/t/p/w45/${movie.poster_path}`} />
+                ) : (
+                    <FontAwesomeIcon icon="film" color='white' />
+                )}
+            </PosterImagePlaceHolder>
+            <ResultInfoParent>
+                <ResultTitle>{movie.title} ({new Date(movie.release_date).getFullYear()})</ResultTitle>
+                <ResultDesc>
+                    {movie.overview}
+                </ResultDesc>
+            </ResultInfoParent>
+        </ResultParent>
+    )
+}
 
-export default Result;
+const mapStateToProps = state => {
+    return {
+        showSearch: state.app.showSearch
+    }
+}
+  
+const mapDispatchToProps = dispatch => ({
+    toggleSearchRx: toggle => dispatch(toggleSearch(toggle))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Result);
