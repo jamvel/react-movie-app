@@ -1,6 +1,6 @@
 import get from 'lodash.get';
 import { SET_MOVIE, SET_MOVIES, INIT_FETCH_LIST, SET_LIST, ERROR_FETCH_LIST } from './types';
-import { getMovieDetails, getPopular, getTopRated } from 'api';
+import { getPopular, getTopRated, getNowPlaying } from 'api';
 
 export const setMovie = movie => dispatch => {
     dispatch({
@@ -76,20 +76,4 @@ export const getList = ({ id, fetchDataCallback } = {}) => async (dispatch, getS
 
 export const getPopularList = () => getList({ id: 'popular', fetchDataCallback: getPopular })
 export const getTopRatedList = () => getList({ id: 'topRated', fetchDataCallback: getTopRated })
-
-// export const getMovieDetails = id => async dispatch => {
-//     try {
-//         const info = await getMovieInfo()
-    
-//         dispatch({
-//             type: UPDATE_MOVIE,
-//             payload: {
-//                 ...info
-//             },
-//         })
-//     } catch(e){
-//         dispatch({
-//             type: ERROR_SET_CONFIG
-//         })
-//     }
-// };
+export const getNowPlayingList = () => getList({ id: 'nowPlaying', fetchDataCallback: getNowPlaying })
