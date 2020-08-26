@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import get from 'lodash.get';
 import styled from 'styled-components';
 import { getMovieDetails } from 'api';
+import Error from 'components/Error';
 
 const Background = styled.div`
     position: fixed;
@@ -39,35 +40,30 @@ const Title = styled.div`
     }
 `
 
-// const Desription
-
 const Movie = ({ id, movieRx }) => {
     const [movieData, setMovieData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
-            const data = await getMovieDetails(id);
-
-            if(movieRx){
-                // perform a merge with redux state
-                setMovieData({
-                    ...movieRx,
-                    videos: { ...data.videos },
-                    similar: { ...data.similar }
-                })
-            }else{
-                setMovieData(data)
+            try {
+                const data = await getMovieDetails(id);
+                if(movieRx){
+                    // perform a merge with redux state
+                    setMovieData({
+                        ...movieRx,
+                        videos: { ...data.videos },
+                        similar: { ...data.similar }
+                    })
+                }else {
+                    setMovieData(data)
+                }
+            } catch(e){
+                setIsError(true);
             }
         }
 
-        if(movieRx){
-            setMovieData(movieRx)
-            getData()
-        }else{
-            getData()
-        }
-
+        getData()
     }, [id])
 
     useEffect(() => {
@@ -78,7 +74,10 @@ const Movie = ({ id, movieRx }) => {
 
     return (
         <>
-            {movieData && movieData.id == id && (
+            {isError && (
+                <Error text={'Could not find movie'} />
+            )}
+            {movieData && movieData.id == id && !isError &&(
                 <>
                     <Background background={movieData.backdrop_path} />
                     <Wrapper>

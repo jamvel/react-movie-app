@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'helpers/theme';
 import Card from 'components/MovieCard';
 import Loader from 'components/Loader';
+import Error from 'components/Error';
 
 const MovieCardContainer = styled.div`
     display: flex;
@@ -100,12 +101,12 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
                 </>
             )}
 
-            {listObject && config && (listObject.isLoading || config.isLoading) && (
+            {listObject && config && (listObject.isLoading || config.isLoading) && !listObject.list &&(
                 <Loader color={theme.secondary} />
             )}
 
             {listObject && config && !listObject.isLoading && !config.isLoading && listObject.list.length <= 0 && (
-                <div>List Not Found</div>
+                <Error text={'Could Not Find List'} />
             )}
 
             {listObject && listObject.isError && (

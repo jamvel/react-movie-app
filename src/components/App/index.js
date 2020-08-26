@@ -4,7 +4,6 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { Route, Switch } from "react-router-dom";
 
 import { initConfig } from 'stores/config/actions';
-import GlobalFont from 'assets/fonts/Poppins';
 
 import 'helpers/fontAwesomeLibrary';
 import theme from 'helpers/theme';
@@ -12,8 +11,8 @@ import theme from 'helpers/theme';
 import Header from 'components/Header';
 import Menu from 'components/Menu';
 import GenreList from 'components/GenreList'
+import Error from 'components/Error';
 
-import routeMap from 'helpers/routeMap';
 import PopularMovies from 'routes/PopularMovies';
 import TopRatedMovies from 'routes/TopRatedMovies';
 import NowPlayingMovies from 'routes/NowPlayingMovies';
@@ -40,11 +39,10 @@ const App = ({ location, history, initConfigRx, config, showMenu }) => {
 
     return (
         <>
-            <GlobalFont />
             <GlobalStyle />
             <ThemeProvider theme={theme}>
                 <Header />
-                <Menu open={showMenu} items={routeMap} />
+                <Menu />
                 <Switch location={location}>
                     <Route exact={true} path="/" component={PopularMovies} />
                     <Route exact={true} path="/top" component={TopRatedMovies} />
@@ -64,8 +62,7 @@ const App = ({ location, history, initConfigRx, config, showMenu }) => {
                             <Movie id={props.match.params.id} />
                         )}
                     />
-                    {/* <Route render={() => (<div>not found</div>)} /> */}
-
+                    <Route render={() => (<Error text={'Page not found'} />)} />
                 </Switch>
             </ThemeProvider>
         </>
