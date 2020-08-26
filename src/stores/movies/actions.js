@@ -1,6 +1,6 @@
 import get from 'lodash.get';
 import { SET_MOVIE, SET_MOVIES, INIT_FETCH_LIST, SET_LIST, ERROR_FETCH_LIST } from './types';
-import { getPopular, getTopRated, getNowPlaying } from 'api';
+import { getPopular, getTopRated, getNowPlaying, getFromGenre } from 'api';
 
 export const setMovie = movie => dispatch => {
     dispatch({
@@ -21,7 +21,7 @@ export const setMovies = movies => dispatch => {
 }
 
 
-export const getList = ({ id, fetchDataCallback } = {}) => async (dispatch, getState) => {
+export const getList = ({ id, fetchDataCallback, isGenre } = {}) => async (dispatch, getState) => {
     // PARAMS must be provided - throw error outside catch as an unrecoverable error
     if(id === undefined){
         throw new Error('Missing List ID in getList Action')
@@ -32,25 +32,30 @@ export const getList = ({ id, fetchDataCallback } = {}) => async (dispatch, getS
     }
 
     const state = getState().movies;
-    const listObject = get(state.lists, id);
+    const listObject = isGenre ? get(state.lists, `genre/${id}`) : get(state.lists, id) 
     const currentPageIndex = listObject ? listObject.index : 0
+
+    const listId = isGenre ? `genre/${id}` : id;
 
     try {
         dispatch({
             type: INIT_FETCH_LIST,
             payload:{
-                id
+                id: listId
             }
         })
 
-        const data = await fetchDataCallback({ pageIndex: currentPageIndex + 1 })
+        const data = await fetchDataCallback({
+            ...isGenre && { genre: id },
+            pageIndex: currentPageIndex + 1
+        })
 
         const list = data.results.map(movie => movie.id)
 
         dispatch({
             type: SET_LIST,
             payload: {
-                id,
+                id: listId,
                 list: list,
                 index: data.page
             },
@@ -67,7 +72,7 @@ export const getList = ({ id, fetchDataCallback } = {}) => async (dispatch, getS
         dispatch({
             type: ERROR_FETCH_LIST,
             payload: {
-                id,
+                id: listId,
                 index: currentPageIndex
             }
         })
@@ -77,3 +82,5 @@ export const getList = ({ id, fetchDataCallback } = {}) => async (dispatch, getS
 export const getPopularList = () => getList({ id: 'popular', fetchDataCallback: getPopular })
 export const getTopRatedList = () => getList({ id: 'topRated', fetchDataCallback: getTopRated })
 export const getNowPlayingList = () => getList({ id: 'nowPlaying', fetchDataCallback: getNowPlaying })
+
+export const getGenreMovieList = genreId => getList({ isGenre: true, id: genreId, fetchDataCallback: getFromGenre })
