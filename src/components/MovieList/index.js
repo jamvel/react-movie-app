@@ -9,6 +9,7 @@ const MovieCardContainer = styled.div`
     display: flex;
     flex-flow: row wrap;
     padding: 0.1em;
+    justify-content: center;
 
     :focus {
         outline: none;
@@ -24,7 +25,7 @@ const MovieCardContainer = styled.div`
         padding: 0.35em;
     }
     @media screen and (max-width: 576px) {
-        padding: 0.25em;
+        padding: 0.1em;
     }
 `;
 

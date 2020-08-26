@@ -10,9 +10,9 @@ const GenreListWrapper = styled.div`
     flex-wrap: no-wrap;
     background: transparent;
     overflow-x: overlay;
-    padding-bottom: 1em;
+    padding: 1em 0;
     :hover {
-        cursor: url(/scroll.png), auto;
+        cursor: url(/scroll.png) 32 15, auto;
     }	
 `
 
@@ -46,6 +46,7 @@ const GenreList = ({ genres }) => {
                 <GenreListWrapper>
                     {genres.map(genre => (
                         <Genre
+                            key={genre.id}
                             onClick={() => handleClick(genre.id)}
                         >
                             {genre.name}
