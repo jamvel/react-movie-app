@@ -1,24 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import get from 'lodash.get';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import { toggleMenu } from 'stores/ui/actions';
 
+import routeMap from 'helpers/routeMap';
+
 const MenuWrapper = styled.nav`
-    display: flex;
-    flex-direction: column;
-    background: #1f262d;
-    color: white;
-    transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(100%)'};
-    height: 100%;
-    text-align: left;
     position: fixed;
     top: 0;
     right: 0;
-    transition: transform 0.3s ease-in-out;
-    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    background: #1f262d;
     width: 350px;
+    color: ${({ theme }) => theme.secondary};
+    transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(100%)'};
+    height: 100%;
+    text-align: left;
+    transition: transform 0.4s ease-in-out;
+    z-index: 99;
+    overflow-y: scroll;
     @media (max-width: ${({ theme }) => theme.breakpoints.xs}) {
         width: 100%;
     }
@@ -59,17 +63,20 @@ const MenuElement = styled.div`
     }
 `
 
-const Menu = ({ open, items, closeMenuRx }) => {
+const Menu = ({ showMenu, items, closeMenuRx }) => {
     const history = useHistory();
 
     const handleElementClick = route => {
         if(route){
+            closeMenuRx(false);
             history.push(route)
         }
     }
 
     return (
-        <MenuWrapper open={open}>
+        <MenuWrapper 
+            open={showMenu}
+        >
             <HeaderElement>
                 <span>
                     <FontAwesomeIcon icon="film" />
@@ -83,6 +90,7 @@ const Menu = ({ open, items, closeMenuRx }) => {
             {items.map(item => (
                 <MenuElement
                     onClick={() => handleElementClick(item.route)}
+                    key={item.route}
                 >
                     {item.title}
                 </MenuElement>
@@ -92,8 +100,17 @@ const Menu = ({ open, items, closeMenuRx }) => {
 }
 
 const mapStateToProps = state => {
+    const genres = get(state, 'config.genres') || []
+    const genresRoutes = genres.map(g => {
+        return {
+            title: `Genre: ${g.name}`,
+            route: `/genre/${g.id}`
+        }
+    }) 
+    
     return {
-        genres: null
+        items: routeMap.concat(genresRoutes),
+        showMenu: get(state, 'ui.showMenu')
     }
 }
   
