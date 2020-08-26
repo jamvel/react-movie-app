@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash.get';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
 
 const MovieCardParent = styled.div`
     position: relative;
@@ -34,18 +35,21 @@ const StyledImg = styled.img`
     height: 100%;
 `;
 
-const MovieCard = ({ movie, secureBaseUrl, posterSize }) => (
-    <>
-        {/* check that movie is defined in state before rendering */}
-        {movie && (
-            <MovieCardParent onClick={() => console.log(get(movie, 'id'))}>
-            <StyledImg
-                src={`${secureBaseUrl}${posterSize}/${get(movie, 'poster_path')}`}
-            />
-            </MovieCardParent>
-        )}
-    </>
-)
+const MovieCard = ({ movie, secureBaseUrl, posterSize }) => {
+    const history = useHistory();
+    return (
+        <>
+            {/* check that movie is defined in state before rendering */}
+            {movie && (
+                <MovieCardParent onClick={() => history.push(`/movie/${get(movie, 'id')}`)}>
+                <StyledImg
+                    src={`${secureBaseUrl}${posterSize}/${get(movie, 'poster_path')}`}
+                />
+                </MovieCardParent>
+            )}
+        </>
+    )
+}
 
 const mapStateToProps = (state, props) => {
     const data = get(state, 'movies.data');
