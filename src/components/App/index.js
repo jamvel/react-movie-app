@@ -11,6 +11,7 @@ import Header from 'components/Header'
 import PopularMovies from 'routes/PopularMovies'
 import TopRatedMovies from 'routes/TopRatedMovies'
 import NowPlayingMovies from 'routes/NowPlayingMovies'
+import MoviesByGenre from 'routes/MoviesByGenre';
 // import Movie from 'routes/Movie'
 
 const GlobalStyle = createGlobalStyle`
@@ -29,11 +30,11 @@ const theme = {
     secondary: '#fff'
 }
 
-const App = ({ location, history, initConfigRx }) => {
+const App = ({ location, history, initConfigRx, config }) => {
 
     useEffect(() => {
         initConfigRx();
-    }, [])
+    }, [initConfigRx])
 
     return (
         <>
@@ -42,15 +43,26 @@ const App = ({ location, history, initConfigRx }) => {
             <ThemeProvider theme={theme}>
                 <Header />
                 <Switch location={location}>
-                <Route exact={true} path="/" component={PopularMovies} />
-                <Route exact={true} path="/top" component={TopRatedMovies} />
-                <Route exact={true} path="/now-playing" component={NowPlayingMovies} />
-                {/* <Route
-                    path="/movie/:id"
-                    render={props => (
-                        <Movie id={props.match.params.id} />
+                    <Route exact={true} path="/" component={PopularMovies} />
+                    <Route exact={true} path="/top" component={TopRatedMovies} />
+                    <Route exact={true} path="/now-playing" component={NowPlayingMovies} />
+                    <Route
+                            path="/genre/:id"
+                            render={props => (
+                                <MoviesByGenre id={props.match.params.id} />
+                            )}
+                        />
+                    {config && ('genres' in config) && (
+                        <></>
                     )}
-                /> */}
+                    {/* <Route
+                        path="/movie/:id"
+                        render={props => (
+                            <Movie id={props.match.params.id} />
+                        )}
+                    /> */}
+                    {/* <Route render={() => (<div>not found</div>)} /> */}
+
                 </Switch>
             </ThemeProvider>
         </>
