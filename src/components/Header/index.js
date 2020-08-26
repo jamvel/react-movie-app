@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 
-import { toggleSearch } from 'stores/app/actions'
+import { toggleSearch } from 'stores/ui/actions'
 
 import Search from 'components/Search';
 
@@ -55,7 +55,7 @@ const Header = ({ showSearch, toggleSearchRx }) => {
 
 const mapStateToProps = state => {
     return {
-        showSearch: state.app.showSearch
+        showSearch: state.ui.showSearch
     }
 }
   

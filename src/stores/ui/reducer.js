@@ -1,7 +1,8 @@
-import { TOGGLE_SEARCH } from './types';
+import { TOGGLE_SEARCH, TOGGLE_MENU } from './types';
 
 const initialState = {
-    showSearch: false
+    showSearch: false,
+    showMenu: false
 };
 
 export default (state = initialState, action) => {
@@ -10,6 +11,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 showSearch: action.payload === null ? !state.showSearch : action.payload
+            }
+        }
+        case TOGGLE_MENU: {
+            return {
+                ...state,
+                showMenu: action.payload === null ? !state.showMenu : action.payload
             }
         }
         default:

@@ -2,13 +2,13 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import config from './config/reducer';
 import movies from './movies/reducer';
-import app from './app/reducer';
+import ui from './ui/reducer';
 
 const makeStore = () => createStore(
     combineReducers({
         config,
         movies,
-        app
+        ui
     }),
     compose(
         applyMiddleware(thunk),

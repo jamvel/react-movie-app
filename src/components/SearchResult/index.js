@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from "react-router-dom";
 import get from 'lodash.get';
 
-import { toggleSearch } from 'stores/app/actions'
+import { toggleSearch } from 'stores/ui/actions'
 
 const ResultParent = styled.div`
     display: flex;
