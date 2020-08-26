@@ -9,9 +9,9 @@ import MovieList from 'components/MovieList';
  */
 const connectMovieList = ({ id, fetchDataCallback }) => {
     return connect(state => {
-        const topRatedList = get(state, `movies.lists.${id}`);
+        const listObject = get(state, `movies.lists.${id}`);
         return {
-            listObject: topRatedList || null,
+            listObject: listObject || null,
             config: get(state, 'config')
         }
     }, dispatch => ({
