@@ -111,7 +111,7 @@ const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
             )}
 
             {listObject && listObject.isError && (
-                <div>Something went wrong :(</div>
+                <Error text={'Something went wrong :('} />
             )}
         </>
 )}
