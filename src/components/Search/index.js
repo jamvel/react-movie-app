@@ -45,10 +45,17 @@ const Results = styled.div`
     overflow: scroll;
 `
 
+const Error = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+`
+
 const Search = () => {
     const [searchValue, setSearchValue] = useState("");
     const [searchQuery, setSearchQuery] = useState({}); // eslint-disable-line no-unused-vars
     const [searchData, setSearchData] = useState({});
+    const [isError, setIsError] = useState(false);
 
     const handleChange = e => {
         const { value } = e.target;
@@ -67,14 +74,22 @@ const Search = () => {
     }
 
     const getSearchData = async value => {
-        const { cancelPrevQuery, data } = await searchMovies(value);
+        try {
+            if(value.length > 1){
+                const { cancelPrevQuery, data } = await searchMovies(value);
         
-        if (cancelPrevQuery){
-            console.log('QUERY CANCELLED')
-            return;
+                if (cancelPrevQuery){
+                    return;
+                }
+        
+                setSearchData(data)
+                if(isError){
+                    setIsError(false)
+                }
+            }
+        }catch(e){
+            setIsError(true)
         }
-
-        setSearchData(data)
     }
 
     return (
@@ -91,6 +106,9 @@ const Search = () => {
                 {'results' in searchData && searchData.results.map(movie => (
                     <Result movie={movie} />
                 ))}
+                {isError && (
+                    <Error>Something went wrong whilst searching</Error>
+                )}
             </Results>
         </ Parent>
 )}
