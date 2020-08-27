@@ -240,7 +240,7 @@ const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
                                     {movieData.videos && movieData.videos.results.length > 1 && movieData.videos.results[0].site === 'YouTube' && (
                                         <ReactPlayer 
                                             url={`https://www.youtube.com/embed/${get(get(movieData, 'videos.results[0]'), 'key')}`} 
-                                            playing={false} 
+                                            playing={true} 
                                             width="100%" 
                                             controls={true} 
                                         />
