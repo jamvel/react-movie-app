@@ -3,9 +3,9 @@
 To connect to the TMDB API I created a Serverless proxy on Vercel. I chose to do this so that the TDMB API key is not exposed in the app when making requests to the API. The code for the serverless proxy is bundled with this application as a submodule and can be found [here](https://github.com/jamvel/vercel-tmdb-proxy).
 ## Redux Structure
 The Redux store houses 3 different reducers:
-    - `config` - contains configuration obtained from TMDB
-    - `movies` - contains movie and movie list data
-    - `ui` - ui state information 
+- `config` : contains configuration obtained from TMDB
+- `movies` : contains movie and movie list data
+- `ui` : ui state information 
     
 The `config` store is populated by a dispatch on App mount
 
