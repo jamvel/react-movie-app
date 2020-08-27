@@ -230,7 +230,7 @@ const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
                                         Release Date: {movieData.release_date}
                                     </div>
                                     <div>
-                                        Homepage: {movieData.homepage && <a href={movieData.homepage} target="_blank">{movieData.homepage}</a>}
+                                        Homepage: {movieData.homepage && <a href={movieData.homepage} target="_blank" rel="noopener noreferrer">{movieData.homepage}</a>}
                                     </div>
                                 </InfoWrapper>
                                 <Overview>
@@ -251,7 +251,7 @@ const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
                                         <h2>You may also be interested in</h2>
                                         <Similar>
                                             {movieData.similar.results.map(movie => (
-                                                <MovieCard movie={movie} />
+                                                <MovieCard movie={movie} key={movie.id} />
                                             ))}
                                         </Similar>
                                     </>
