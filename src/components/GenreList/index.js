@@ -9,11 +9,25 @@ const GenreListWrapper = styled.div`
     flex-direction: row;
     flex-wrap: no-wrap;
     background: transparent;
-    overflow-x: overlay;
-    padding: 1em 0;
+    overflow-x: scroll;
+    padding: 1.4em 0;
+    margin-bottom: 1em;
     :hover {
-        cursor: url(${process.env.PUBLIC_URL}/scroll.png) 32 15, auto;
-    }	
+        cursor: url(${process.env.PUBLIC_URL}/scroll.png) 32 31, auto;
+    }
+    /* Modify scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
 `
 
 const Genre = styled.div`
