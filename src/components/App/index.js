@@ -12,12 +12,14 @@ import Header from 'components/Header';
 import Menu from 'components/Menu';
 import GenreList from 'components/GenreList'
 import Error from 'components/Error';
+import Suspend from 'components/Suspend';
 
-import PopularMovies from 'routes/PopularMovies';
-import TopRatedMovies from 'routes/TopRatedMovies';
-import NowPlayingMovies from 'routes/NowPlayingMovies';
-import MoviesByGenre from 'routes/MoviesByGenre';
-import Movie from 'routes/Movie';
+const PopularMovies = React.lazy(() => import('routes/PopularMovies'));
+const TopRatedMovies = React.lazy(() => import('routes/TopRatedMovies'));
+const NowPlayingMovies = React.lazy(() => import('routes/NowPlayingMovies'));
+const MoviesByGenre = React.lazy(() => import('routes/MoviesByGenre'));
+const Movie = React.lazy(() => import('routes/Movie'));
+
 
 const GlobalStyle = createGlobalStyle`
     html, body, #root {
@@ -44,25 +46,25 @@ const App = ({ location, initConfigRx }) => {
                 <Header />
                 <Menu />
                 <Switch location={location}>
-                    <Route exact={true} path="/" component={PopularMovies} />
-                    <Route exact={true} path="/top" component={TopRatedMovies} />
-                    <Route exact={true} path="/now-playing" component={NowPlayingMovies} />
+                    <Route exact={true} path="/" component={Suspend(PopularMovies)} />
+                    <Route exact={true} path="/top" component={Suspend(TopRatedMovies)}/>
+                    <Route exact={true} path="/now-playing" component={Suspend(NowPlayingMovies)} />
                     <Route
                             path="/genre/:id"
-                            render={props => (
+                            render={Suspend(props => (
                                 <>
                                     <GenreList />
                                     <MoviesByGenre id={props.match.params.id} />
                                 </>
-                            )}
+                            ))}
                         />
                     <Route
                         path="/movie/:id"
-                        render={props => (
+                        render={Suspend(props => (
                             <Movie id={props.match.params.id} />
-                        )}
+                        ))}
                     />
-                    <Route render={() => (<Error text={'Page not found'} />)} />
+                    <Route render={Suspend(() => (<Error text={'Page not found'} />))} />
                 </Switch>
             </ThemeProvider>
         </>
