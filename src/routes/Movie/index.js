@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useHistory } from 'react-router-dom';
 import get from 'lodash.get';
 import styled from 'styled-components';
+import ReactPlayer from 'react-player';
 import { getMovieDetails } from 'api';
+import theme from 'helpers/theme';
 import Error from 'components/Error';
+import Loader from 'components/Loader';
+import MovieCard from 'components/MovieCard'
 
 const Background = styled.div`
     position: fixed;
@@ -21,73 +27,242 @@ const Background = styled.div`
 
 const Wrapper = styled.div`
     display: flex;
+    flex-direction: column;
     color: ${({ theme }) => theme.secondary};
     padding: 1em;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        padding: 0 .7em;
+    }
+`
+
+const HeaderWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        flex-direction: column;
+    }
+`
+
+const TitleWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        flex-direction: column;
+    }
 `
 
 const Title = styled.div`
+    display: flex;
+    align-items: center;
     font-size: 2em;
     font-weight: bold;
+    flex-wrap: wrap;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        font-size: 1.6em;
+    }
 
     > span:first-child {
         margin-left: 0.2em;
         font-size: 0.5em;
     }
+`
+
+const Genres = styled.div`
+    display: flex;
+    margin-left: .4em;
+    flex-wrap: wrap;
 
     > div {
-        font-weight: normal;
-        font-size: .5em;
+        font-size: 0.65em;
+        margin: 0.3em;
+        border: 1px solid ${({ theme }) => theme.secondary};
+        padding: .3em;
+        border-radius: .5em;
+        font-weight: 300;
+
+        :hover {
+            cursor: pointer
+        }
+
+        @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+            font-size: .9em;
+            justify-content: center;
+            margin-bottom: .5em;
+        }
     }
 `
 
-const Movie = ({ id, movieRx }) => {
+const InfoTitle = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    span {
+        :first-child{
+            margin-right: 1em;
+        }
+
+        svg:first-child{
+            margin-right: 0.3em;
+        }
+
+        > span {
+            font-size: .6em;
+            margin-left: .2em;
+        }
+    }
+`
+
+const TagLine = styled.div`
+    font-weight: 300;
+    font-size: 1em;
+    font-style: italic;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        margin-top: 1em;
+        text-align: center;
+        font-size: 1em;
+    }
+`
+const InfoWrapper = styled.div`
+    margin-top: 1em;
+
+    * > a {
+        color: skyblue;
+    }
+`
+
+const Overview = styled.div`
+    margin-top: 1em;
+    font-size: .9em;
+    text-align: justify;
+`
+
+const VideoWrapper = styled.div`
+    width: 100%;
+    margin: 1em 0;
+`
+
+const Similar = styled.div`
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0.1em;
+    justify-content: center;
+`
+
+const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
     const [movieData, setMovieData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+
+    const history = useHistory();
+
+    /* 
+        Use this effect to load data already in redux
+        Data will be replaced by api call but if is Client routed, background will load before data is fetched
+    */
+    useEffect(() => {
+        if(movieRx){
+            setMovieData(movieRx)
+        }
+    }, [movieRx])
 
     useEffect(() => {
         const getData = async () => {
             try {
+                setIsLoading(true)
                 const data = await getMovieDetails(id);
-                if(movieRx){
-                    // perform a merge with redux state
-                    setMovieData({
-                        ...movieRx,
-                        videos: { ...data.videos },
-                        similar: { ...data.similar }
-                    })
-                }else {
-                    setMovieData(data)
-                }
+                setMovieData(data)
+                setIsLoading(false)
             } catch(e){
+                setIsLoading(false)
                 setIsError(true);
             }
         }
 
         getData()
-    }, [id])
+    }, [id, movieRx])
 
-    useEffect(() => {
-        if(movieData){
-            console.log(movieData)
-        }
-    }, [movieData])
 
     return (
         <>
             {isError && (
                 <Error text={'Could not find movie'} />
             )}
-            {movieData && movieData.id == id && !isError &&(
+            {movieData && movieData.id.toString() === id && !isError &&(
                 <>
                     <Background background={movieData.backdrop_path} />
                     <Wrapper>
-                        <Title>
-                            {movieData.title}
-                            <span>({new Date(movieData.release_date).getFullYear()})</span>
-                            <div>{movieData.tagline}</div>
-                        </Title>
+                        {!isLoading && (
+                            <>
+                                <HeaderWrapper>
+                                    <TitleWrapper>
+                                        <Title>
+                                            {movieData.title}
+                                            <span>({new Date(movieData.release_date).getFullYear()})</span>
+                                        </Title>
+                                        <Genres>
+                                            {movieData.genres.map(g => (
+                                                <div key={g.id} onClick={() => history.push(`/genre/${g.id}`)}>
+                                                    {g.name}
+                                                </div>
+                                            ))}
+                                        </Genres>
+                                    </TitleWrapper>
+                                    <InfoTitle>
+                                        <span><FontAwesomeIcon icon="clock" />{movieData.runtime}mins</span>
+                                        <span>
+                                            <FontAwesomeIcon icon="star" />
+                                            {movieData.vote_average}
+                                            <span>
+                                                ({movieData.vote_count} votes)
+                                            </span>
+                                        </span>
+                                    </InfoTitle>
+                                </HeaderWrapper>
+                                <TagLine>
+                                    {movieData.tagline}
+                                </TagLine>
+                                <InfoWrapper>
+                                    <div>
+                                        Release Date: {movieData.release_date}
+                                    </div>
+                                    <div>
+                                        Homepage: {movieData.homepage && <a href={movieData.homepage} target="_blank">{movieData.homepage}</a>}
+                                    </div>
+                                </InfoWrapper>
+                                <Overview>
+                                    {movieData.overview}
+                                </Overview>
+                                <VideoWrapper>
+                                    {movieData.videos && movieData.videos.results.length > 1 && movieData.videos.results[0].site === 'YouTube' && (
+                                        <ReactPlayer 
+                                            url={`https://www.youtube.com/embed/${get(get(movieData, 'videos.results[0]'), 'key')}`} 
+                                            playing={false} 
+                                            width="100%" 
+                                            controls={true} 
+                                        />
+                                    )}
+                                </VideoWrapper>
+                                {movieData.similar && movieData.similar.results.length > 0 && (
+                                    <>
+                                        <h2>You may also be interested in</h2>
+                                        <Similar>
+                                            {movieData.similar.results.map(movie => (
+                                                <MovieCard movie={movie} />
+                                            ))}
+                                        </Similar>
+                                    </>
+                                )}
+                            </>
+                        )}
                     </Wrapper>
                 </>
+            )}
+            {isLoading && (
+                <Loader color={theme.secondary} />
             )}
         </>
     )
@@ -95,13 +270,12 @@ const Movie = ({ id, movieRx }) => {
 
 const mapStateToProps = (state, props) => {
     const data = get(state, 'movies.data');
-    const config = get(state, 'config');
+    const imagesConfig = get(state, 'config.images');
     
     return {
         movieRx: data[props.id] || null,
-        config: config,
-        // secureBaseUrl: get(imagesConfig, 'secure_base_url'),
-        // posterSize: get(imagesConfig, 'poster_sizes[3]')
+        secureBaseUrl: get(imagesConfig, 'secure_base_url'),
+        posterSize: get(imagesConfig, 'poster_sizes[3]'),
     }
 }
 
