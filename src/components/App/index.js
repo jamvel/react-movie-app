@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
-const App = ({ location, history, initConfigRx, config, showMenu }) => {
+const App = ({ location, initConfigRx }) => {
 
     useEffect(() => {
         initConfigRx();
@@ -69,16 +69,9 @@ const App = ({ location, history, initConfigRx, config, showMenu }) => {
     );
 }
 
-const mapStateToProps = state => {
-    return {
-        config: state.config,
-        showMenu: state.ui.showMenu 
-    }
-}
-
 const mapDispatchToProps = dispatch => ({
     initConfigRx: () => dispatch(initConfig()),
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)
