@@ -129,8 +129,18 @@ const TagLine = styled.div`
 const InfoWrapper = styled.div`
     margin-top: 1em;
 
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+       font-size: 0.8em;
+    }
+
     * > a {
         color: skyblue;
+    }
+
+    > div:last-child {
+        display: flex;
+        overflow: hidden;
+        flex-wrap: wrap;
     }
 `
 
@@ -138,6 +148,10 @@ const Overview = styled.div`
     margin-top: 1em;
     font-size: .9em;
     text-align: justify;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        font-size: 0.8em;
+    }
 `
 
 const VideoWrapper = styled.div`
