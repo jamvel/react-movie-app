@@ -18,7 +18,7 @@ const Background = styled.div`
     width: 100%;
     max-width: 100%;
     height: 100%;
-    background: url('https://image.tmdb.org/t/p/original/${props => props.background}') no-repeat center center fixed;;
+    background: url('${props => props.secureBaseUrl}original/${props => props.background}') no-repeat center center fixed;;
     background-size: cover;
     background-repeat: no-repeat;
     filter: saturate(0.4);
@@ -151,8 +151,19 @@ const Similar = styled.div`
     padding: 0.1em;
     justify-content: center;
 `
-
-const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
+/**
+ * HOC component to show Movie info
+ * - This HOC will fetch data from the API each time the /movie/:id route is hit
+ * - Data from redux will be re written by the components internal state
+ * - Component does not dispatch any actions to redux when a movie is fetched to limit the amount of data stored in redux
+ * 
+ * @name Route/Movie
+ * @component
+ * @param {string} id - The movie id
+ * @param {Object} movieRx - The movie data from redux
+ * @param {string} secureBaseUrl - URL to fetch the asset from 
+ */
+const Movie = ({ id, movieRx, secureBaseUrl }) => {
     const [movieData, setMovieData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -191,9 +202,10 @@ const Movie = ({ id, movieRx , secureBaseUrl, posterSize }) => {
             {isError && (
                 <Error text={'Could not find movie'} />
             )}
+            {/* Check that the id matches the id inside the data so that a re render occurs */}
             {movieData && movieData.id.toString() === id && !isError &&(
                 <>
-                    <Background background={movieData.backdrop_path} />
+                    <Background background={movieData.backdrop_path} secureBaseUrl={secureBaseUrl} />
                     <Wrapper>
                         {!isLoading && (
                             <>
@@ -274,8 +286,7 @@ const mapStateToProps = (state, props) => {
     
     return {
         movieRx: data[props.id] || null,
-        secureBaseUrl: get(imagesConfig, 'secure_base_url'),
-        posterSize: get(imagesConfig, 'poster_sizes[3]'),
+        secureBaseUrl: get(imagesConfig, 'secure_base_url')
     }
 }
 

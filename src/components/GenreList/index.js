@@ -34,7 +34,12 @@ const Genre = styled.div`
         background: maroon;
     }
 `
-
+/**
+ * Displays a list of genres
+ * @name GenreList
+ * @component
+ * @param {Object[]} genres 
+ */
 const GenreList = ({ genres }) => {
     const history = useHistory();
     const handleClick = id => {

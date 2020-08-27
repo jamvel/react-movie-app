@@ -6,7 +6,12 @@ const LoaderWrapper = styled.div`
     display: flex;
     justify-content: center;
 `
-
+/**
+ * Loader Component
+ * @name Loader
+ * @component
+ * @param {...Object} props 
+ */
 const Loader = ({ ...props }) => (
     <LoaderWrapper>
         <Ellipsis

@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
 const App = ({ location, initConfigRx }) => {
 
     useEffect(() => {
+        // Dispatch action to get config from API
         initConfigRx();
     }, [initConfigRx])
 

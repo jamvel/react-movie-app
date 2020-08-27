@@ -20,7 +20,13 @@ export const setMovies = movies => dispatch => {
     })
 }
 
-
+/**
+ * A function to create and update all movie lists within the application
+ * Acts as a wrapper to create a Thunk
+ * @param {string} id - List id 
+ * @param {Function} fetchDataCallback - Callback function that obtains data from the API
+ * @param {boolean} isGenre - Boolean to indicate whether a movie list is a Genre
+ */
 export const getList = ({ id, fetchDataCallback, isGenre } = {}) => async (dispatch, getState) => {
     // PARAMS must be provided - throw error outside catch as an unrecoverable error
     if(id === undefined){
@@ -82,5 +88,4 @@ export const getList = ({ id, fetchDataCallback, isGenre } = {}) => async (dispa
 export const getPopularList = () => getList({ id: 'popular', fetchDataCallback: getPopular })
 export const getTopRatedList = () => getList({ id: 'topRated', fetchDataCallback: getTopRated })
 export const getNowPlayingList = () => getList({ id: 'nowPlaying', fetchDataCallback: getNowPlaying })
-
 export const getGenreMovieList = genreId => getList({ isGenre: true, id: genreId, fetchDataCallback: getFromGenre })

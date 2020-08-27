@@ -68,6 +68,7 @@ const Button = styled.button`
  * @param {Object} config - Config Object containing different properties
  * @param {boolean} config.isLoading - Config property that shows whether the config data is being fetched
  * @param {Function} fetchDataCallback - Redux Action that performs the data fetch for a given list
+ * @param {string} title - Title of List
  */
 const MovieList = ({ listObject, fetchDataCallback, config, title }) => {
     /**

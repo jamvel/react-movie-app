@@ -53,7 +53,15 @@ const ResultDesc = styled.div`
     text-overflow: ellipsis;
     font-size: 12px;
 `
-
+/**
+ * Component that displays a single search result
+ * @name Result
+ * @component
+ * @param {Object} movie - The movie object containing the data
+ * @param {string} secureBaseUrl - URL to fetch the asset from
+ * @param {string} posterSize - Size of poster image 
+ * @param {Function} toggleSearchRx - Function that dispatches an action to toggle the Search bar 
+ */
 const Result = ({ movie, secureBaseUrl, posterSize, toggleSearchRx }) => {
     const history = useHistory();
     return (

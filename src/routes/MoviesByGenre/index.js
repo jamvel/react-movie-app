@@ -4,7 +4,13 @@ import get from 'lodash.get';
 import MovieList from 'components/MovieList';
 import { getGenreMovieList } from 'stores/movies/actions';
 
-const GenreList = props => (
+/**
+ * HOC component to show a Genre
+ * @name Route/Genre
+ * @component
+ * @param {...Object} props - Same props as MovieList component since this is just a Wrapper 
+ */
+const Genre = props => (
     <MovieList {...props} />
 )
 
@@ -28,4 +34,4 @@ export default connect((state, ownProps) => {
     }
 }, (dispatch, ownProps) => ({
     fetchDataCallback: () => dispatch(getGenreMovieList(ownProps.id)),
-}))(GenreList);;
+}))(Genre);;

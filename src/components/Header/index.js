@@ -44,6 +44,12 @@ const IconWrapper = styled.div`
     }
 `
 
+/**
+ * @component
+ * @param {bool} showSearch - Determines whether or not SearchBar is shown
+ * @param {Function} toggleSearchRx - Function that dispatches an an action to toggle the SearchBar
+ * @param {Function} openMenuRx - Function that dispatched an action to open the side menu
+ */
 const Header = ({ showSearch, toggleSearchRx, openMenuRx }) => {
     const history = useHistory();
     return (

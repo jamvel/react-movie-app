@@ -35,6 +35,13 @@ const StyledImg = styled.img`
     height: 100%;
 `;
 
+/**
+ * @name MovieCard
+ * @component
+ * @param {Object} movie - The movie Object containing the data
+ * @param {string} secureBaseUrl - URL to fetch the asset
+ * @param {string} posterSize - Size of poster image 
+ */
 const MovieCard = ({ movie, secureBaseUrl, posterSize }) => {
     const history = useHistory();
     return (

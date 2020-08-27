@@ -9,7 +9,12 @@ const ErrorWrapper = styled.div`
     color: ${({ theme }) => theme.secondary};
     font-size: 1.5em;
 `
-
+/**
+ * Error Component
+ * @name Error
+ * @component
+ * @param {string} text 
+ */
 const Error = ({ text }) => (
     <ErrorWrapper>
         {text}

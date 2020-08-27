@@ -63,6 +63,13 @@ const MenuElement = styled.div`
     }
 `
 
+/**
+ * @name Menu
+ * @component
+ * @param {boolean} showMenu - Determines whether the Menu is shown or not
+ * @param {Object} items - Items to be rendered in the Menu
+ * @param {Function} closeMenuRx - Function that dispatches an action to close the Menu
+ */
 const Menu = ({ showMenu, items, closeMenuRx }) => {
     const history = useHistory();
 
