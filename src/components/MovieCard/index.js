@@ -56,7 +56,7 @@ const mapStateToProps = (state, props) => {
     const imagesConfig = get(state, 'config.images');
     
     return {
-        movie: data[props.id] || null,
+        movie: props.movie || data[props.id] || null,
         secureBaseUrl: get(imagesConfig, 'secure_base_url'),
         posterSize: get(imagesConfig, 'poster_sizes[3]')
     }
