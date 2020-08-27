@@ -262,7 +262,7 @@ const Movie = ({ id, movieRx, secureBaseUrl }) => {
                                         Release Date: {movieData.release_date}
                                     </div>
                                     <div>
-                                        Homepage: {movieData.homepage && <a href={movieData.homepage} target="_blank" rel="noopener noreferrer">{movieData.homepage}</a>}
+                                        Homepage:&nbsp;{movieData.homepage && <a href={movieData.homepage} target="_blank" rel="noopener noreferrer">{movieData.homepage}</a>}
                                     </div>
                                 </InfoWrapper>
                                 <Overview>
