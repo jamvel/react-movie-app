@@ -12,7 +12,7 @@ const GenreListWrapper = styled.div`
     overflow-x: overlay;
     padding: 1em 0;
     :hover {
-        cursor: url(/scroll.png) 32 15, auto;
+        cursor: url(${process.env.PUBLIC_URL}/scroll.png) 32 15, auto;
     }	
 `
 
