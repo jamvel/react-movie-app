@@ -142,7 +142,8 @@ const Overview = styled.div`
 
 const VideoWrapper = styled.div`
     width: 100%;
-    margin: 1em 0;
+    margin: 1em 0 0 0;
+    height: 370px;
 `
 
 const Similar = styled.div`
