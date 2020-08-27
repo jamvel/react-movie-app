@@ -13,6 +13,7 @@ const Parent = styled.div`
     box-sizing: border-box;
     background: white;
     z-index: 3;
+    overflow-x: hidden;
 `
 
 const InputParent = styled.div`
@@ -51,6 +52,11 @@ const Error = styled.div`
     padding: 1em;
 `
 
+/**
+ * Search component - Self sufficient without redux state connection
+ * @name Search
+ * @component
+ */
 const Search = () => {
     const [searchValue, setSearchValue] = useState("");
     const [searchQuery, setSearchQuery] = useState({}); // eslint-disable-line no-unused-vars
@@ -61,7 +67,8 @@ const Search = () => {
         const { value } = e.target;
         setSearchValue(value);
 
-        const search = debounce(getSearchData, 1000);
+        // debounce so that we don't run too many queries
+        const search = debounce(getSearchData, 500);
 
         setSearchQuery(prevSearch => {
             if (prevSearch.cancel) {
@@ -104,7 +111,7 @@ const Search = () => {
             </InputParent>
             <Results>
                 {'results' in searchData && searchData.results.map(movie => (
-                    <Result movie={movie} />
+                    <Result key={movie.id} movie={movie} />
                 ))}
                 {isError && (
                     <Error>Something went wrong whilst searching</Error>
