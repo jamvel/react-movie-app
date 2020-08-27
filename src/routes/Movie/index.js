@@ -141,9 +141,14 @@ const Overview = styled.div`
 `
 
 const VideoWrapper = styled.div`
-    width: 100%;
-    margin: 1em 0 0 0;
-    height: 370px;
+    width: 640px;
+    position:relative;
+    overflow:hidden;
+    margin: 1em auto 0 auto;
+
+    @media (max-width: 639px) {
+        width: 100%;
+    }
 `
 
 const Similar = styled.div`
@@ -253,7 +258,7 @@ const Movie = ({ id, movieRx, secureBaseUrl }) => {
                                     {movieData.videos && movieData.videos.results.length > 1 && movieData.videos.results[0].site === 'YouTube' && (
                                         <ReactPlayer 
                                             url={`https://www.youtube.com/embed/${get(get(movieData, 'videos.results[0]'), 'key')}`} 
-                                            playing={true} 
+                                            playing={true}
                                             width="100%" 
                                             controls={true} 
                                         />
