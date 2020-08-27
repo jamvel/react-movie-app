@@ -1,0 +1,3 @@
+[submodule "vercel-tmdb-proxy"]
+	path = vercel-tmdb-proxy
+	url = https://github.com/jamvel/vercel-tmdb-proxy.git
