@@ -14,12 +14,13 @@ const Parent = styled.div`
     background: white;
     z-index: 3;
     overflow-x: hidden;
+    margin-top: 5px;
 `
 
 const InputParent = styled.div`
     display: flex;
     align-items: center;
-    padding: 5px 15px;
+    padding: 15px;
     border-bottom: 1px solid ${props => props.theme.primary};
 `
 

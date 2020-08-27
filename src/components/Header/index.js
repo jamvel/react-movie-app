@@ -20,6 +20,13 @@ const BrandWrapper = styled.div`
     margin-left: 1em;
     user-select: none;
     cursor: pointer;
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        font-size: 0.9em
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.xs}) {
+        font-size: 0.7em
+    }
 `
 
 const HeaderWrapper = styled.div`
@@ -33,14 +40,54 @@ const HeaderWrapper = styled.div`
     }
 `
 
-const IconWrapper = styled.div`
-    svg {
+const RightSectionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+
+    > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1.5em;
+        font-size: 7px;
+        width: 50px;
+        color: ${({ theme }) => theme.secondary};
+        text-decoration: none;
+
+        #tmdb {
+            width: 90%;
+            margin-right: .5em;
+        }
+
+        #github {
+            width: 70%;
+            filter: invert(1);
+        }
+
+        @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+            margin-right: 0;
+
+            #tmdb {
+                width: 70%
+            }
+
+            #github {
+                width: 50%;
+            }
+        }
+    }
+
+    :last-child {
+        margin-right: .6em;
+    }
+`
+
+const IconWrapper = styled.span`
+    width: 40px;
+    margin-right: .4em;
+    > svg {
         margin-left: 0.7em;
         cursor: pointer;
-
-        :last-child {
-            margin-right: 1em;
-        }
     }
 `
 
@@ -58,16 +105,26 @@ const Header = ({ showSearch, toggleSearchRx, openMenuRx }) => {
                 <BrandWrapper onClick={() => history.push('/')}>
                     <FontAwesomeIcon icon="film" /> React <span>Movies</span>
                 </BrandWrapper>
-                <IconWrapper>
-                    <FontAwesomeIcon 
-                        icon={showSearch ? 'times' : 'search'}
-                        onClick={() => toggleSearchRx()}
-                    />
-                    <FontAwesomeIcon 
-                        icon='bars'
-                        onClick={() => openMenuRx()}
-                    />
-                </IconWrapper>
+                <RightSectionWrapper>
+                    <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
+                        <img id='tmdb' src={`${process.env.PUBLIC_URL}/tmdb-logo.svg`} alt="tmdb logo"/>
+                    </a>
+                    <a href="https://github.com/jamvel/react-movie-app" target="_blank" rel="noopener noreferrer">
+                        <img id='github' src={`${process.env.PUBLIC_URL}/github-logo.png`} alt="github logo" />
+                    </a>
+                    <IconWrapper>
+                        <FontAwesomeIcon 
+                            icon={showSearch ? 'times' : 'search'}
+                            onClick={() => toggleSearchRx()}
+                        />
+                    </IconWrapper>
+                    <IconWrapper>
+                        <FontAwesomeIcon 
+                            icon='bars'
+                            onClick={() => openMenuRx()}
+                        />
+                    </IconWrapper>
+                </RightSectionWrapper>
             </HeaderWrapper>
             {showSearch && (
                 <Search />

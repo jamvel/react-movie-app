@@ -36,6 +36,11 @@ const TitleContainer = styled.div`
     width: 100%;
     font-weight: bold;
     border-bottom: 1px solid ${({ theme }) => theme.secondary};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.xs}) {
+        font-size: 1.4em;
+        margin-top: .5em;
+    }
 `
 
 const ButtonWrapper = styled.div`
